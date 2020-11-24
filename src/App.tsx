@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Filters from 'components/Filters';
 
-type TypeAnimalFilter = 'dog' | 'cat' | 'rat';
+type TypeAnimalFilter = 'bat' | 'spider' | 'panther';
 
-const FILTERS: TypeAnimalFilter[] = ['dog', 'cat', 'rat'];
+const FILTERS: TypeAnimalFilter[] = ['bat', 'spider', 'panther'];
 
 const App: React.FC = () => {
 
-  const [selectedAnimal, setSelectedAnimal] = useState<TypeAnimalFilter>('' as TypeAnimalFilter)
+  const [selectedAnimal, setSelectedAnimal] = useState<TypeAnimalFilter>(null!)
   useEffect(() => {
-    setSelectedAnimal('cat');
+    setSelectedAnimal('spider');
   }, [])
 
   const handleSelectedFilter = (filter: TypeAnimalFilter) => {
@@ -22,7 +22,7 @@ const App: React.FC = () => {
       <Filters<TypeAnimalFilter>
         currSelectedFilter={selectedAnimal}
         onSelect={handleSelectedFilter}
-        filters={FILTERS}
+        filtersGroup={FILTERS}
       />
     </Box>
   )
