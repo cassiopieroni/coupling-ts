@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@material-ui/core/Box';
+import { useEffect, useState } from 'react';
+import { Grid, makeStyles, Theme } from '@material-ui/core';
 import Filters from 'components/Filters';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '100vw',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+}))
 
 type TypeAnimalFilter = 'bat' | 'spider' | 'panther';
 
 const FILTERS: TypeAnimalFilter[] = ['bat', 'spider', 'panther'];
 
 const App: React.FC = () => {
-
+  const classes = useStyles();
   const [selectedAnimal, setSelectedAnimal] = useState<TypeAnimalFilter>(null!)
   useEffect(() => {
     setSelectedAnimal('spider');
@@ -18,13 +27,13 @@ const App: React.FC = () => {
   }
 
   return (
-    <Box>
+    <Grid container className={classes.root}>
       <Filters<TypeAnimalFilter>
         currSelectedFilter={selectedAnimal}
         onSelect={handleSelectedFilter}
         filtersGroup={FILTERS}
       />
-    </Box>
+    </Grid>
   )
 }
 
