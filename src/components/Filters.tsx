@@ -1,6 +1,6 @@
 import { Paper, makeStyles, withStyles, Theme } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -33,18 +33,17 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-type Props<TypeFilter> = {
-  onSelect: (x: TypeFilter) => void;
-  filtersGroup: TypeFilter[];
-  currSelectedFilter: TypeFilter;
+type Props = {
+  onSelect: (x: string) => void;
+  filtersGroup: string[];
+  currSelectedFilter: string;
 }
 
-const Filters = <TypeStringFilter extends string>(
-  props: PropsWithChildren<Props<TypeStringFilter>>) => {
+const Filters: React.FC<Props> = (props) => {
   
   const classes = useStyles();
   const { onSelect, filtersGroup, currSelectedFilter } = props;
-  const [selectedValue, setSelectedValue] = useState<TypeStringFilter>(null!)
+  const [selectedValue, setSelectedValue] = useState<string>(null!)
 
   useEffect(() => {
     if (currSelectedFilter && currSelectedFilter !== selectedValue) {
@@ -52,7 +51,7 @@ const Filters = <TypeStringFilter extends string>(
     }
   }, [currSelectedFilter, selectedValue])
 
-  const handleChange = (filterValue: TypeStringFilter | null) => {
+  const handleChange = (filterValue: string | null) => {
     if (!filterValue || filterValue === currSelectedFilter) {
       return
     }
