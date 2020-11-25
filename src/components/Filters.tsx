@@ -1,7 +1,37 @@
-import Box from '@material-ui/core/Box';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { Paper, makeStyles, withStyles, Theme } from '@material-ui/core';
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: 'flex',
+    border: `1px solid ${theme.palette.divider}`,
+    flexWrap: 'wrap',
+  },
+  buttonGroup: {
+    margin: theme.spacing(0.5),
+    border: 'none',
+    '&:not(:first-child)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-child': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));
+
+const StyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    margin: theme.spacing(0.5),
+    border: 'none',
+    '&:not(:first-child)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-child': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}))(ToggleButtonGroup);
 
 type Props<TypeFilter> = {
   onSelect: (x: TypeFilter) => void;
@@ -12,6 +42,7 @@ type Props<TypeFilter> = {
 const Filters = <TypeStringFilter extends string>(
   props: PropsWithChildren<Props<TypeStringFilter>>) => {
   
+  const classes = useStyles();
   const { onSelect, filtersGroup, currSelectedFilter } = props;
   const [selectedValue, setSelectedValue] = useState<TypeStringFilter>(null!)
 
@@ -30,8 +61,9 @@ const Filters = <TypeStringFilter extends string>(
   };
 
   return (
-    <Box>
-      <ToggleButtonGroup
+    <Paper elevation={0} className={classes.root}>
+      <StyledToggleButtonGroup
+        className={classes.buttonGroup}
         value={selectedValue}
         exclusive
         onChange={(_, filter) => handleChange(filter)}
@@ -39,13 +71,13 @@ const Filters = <TypeStringFilter extends string>(
         {filtersGroup.map(filter => (
           <ToggleButton 
             key={filter}  
-            value={filter} 
+            value={filter}
           >
             {filter}
           </ToggleButton>
         ))}
-      </ToggleButtonGroup>
-    </Box>
+      </StyledToggleButtonGroup>
+    </Paper>
   )
 }
 
