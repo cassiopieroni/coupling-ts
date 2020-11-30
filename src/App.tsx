@@ -11,22 +11,24 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const FILTERS = ['bat', 'spider', 'panther'];
+type TAnimals = 'bat' | 'spider' | 'panther';
+
+const FILTERS: TAnimals[] = ['bat', 'spider', 'panther'];
 
 const App: React.FC = () => {
   const classes = useStyles();
-  const [selectedAnimal, setSelectedAnimal] = useState<string>(null!)
+  const [selectedAnimal, setSelectedAnimal] = useState<TAnimals>(null!)
   useEffect(() => {
     setSelectedAnimal('spider');
   }, [])
 
-  const handleSelectedFilter = (filter: string) => {
+  const handleSelectedFilter = (filter: TAnimals) => {
     setSelectedAnimal(filter)
   }
 
   return (
     <Grid container className={classes.root}>
-      <Filters
+      <Filters<TAnimals>
         currSelectedFilter={selectedAnimal}
         onSelect={handleSelectedFilter}
         filtersGroup={FILTERS}

@@ -1,6 +1,6 @@
 import { Paper, makeStyles, withStyles, Theme } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -33,17 +33,17 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-type Props = {
-  onSelect: (x: string) => void;
-  filtersGroup: string[];
-  currSelectedFilter: string;
+type Props<T> = {
+  onSelect: (x: T) => void;
+  filtersGroup: T[];
+  currSelectedFilter: T;
 }
 
-const Filters: React.FC<Props> = (props) => {
+const Filters = <TypeFilters extends string>(props: PropsWithChildren<Props<TypeFilters>>) => {
   
   const classes = useStyles();
   const { onSelect, filtersGroup, currSelectedFilter } = props;
-  const [selectedValue, setSelectedValue] = useState<string>(null!)
+  const [selectedValue, setSelectedValue] = useState<TypeFilters>(null!)
 
   useEffect(() => {
     if (currSelectedFilter && currSelectedFilter !== selectedValue) {
@@ -51,7 +51,7 @@ const Filters: React.FC<Props> = (props) => {
     }
   }, [currSelectedFilter, selectedValue])
 
-  const handleChange = (filterValue: string | null) => {
+  const handleChange = (filterValue: TypeFilters | null) => {
     if (!filterValue || filterValue === currSelectedFilter) {
       return
     }
@@ -79,5 +79,9 @@ const Filters: React.FC<Props> = (props) => {
     </Paper>
   )
 }
+
+function assertFC<P>(component: React.FC<P>): asserts component is React.FC<P> {}
+
+assertFC(Filters)
 
 export default Filters;
