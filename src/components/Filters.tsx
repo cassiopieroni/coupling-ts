@@ -33,18 +33,17 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-type Props<TypeFilter> = {
-  onSelect: (x: TypeFilter) => void;
-  filtersGroup: TypeFilter[];
-  currSelectedFilter: TypeFilter;
+type Props<T> = {
+  onSelect: (x: T) => void;
+  filtersGroup: T[];
+  currSelectedFilter: T;
 }
 
-const Filters = <TypeStringFilter extends string>(
-  props: PropsWithChildren<Props<TypeStringFilter>>) => {
+const Filters = <TypeFilters extends string>(props: PropsWithChildren<Props<TypeFilters>>) => {
   
   const classes = useStyles();
   const { onSelect, filtersGroup, currSelectedFilter } = props;
-  const [selectedValue, setSelectedValue] = useState<TypeStringFilter>(null!)
+  const [selectedValue, setSelectedValue] = useState<TypeFilters>(null!)
 
   useEffect(() => {
     if (currSelectedFilter && currSelectedFilter !== selectedValue) {
@@ -52,7 +51,7 @@ const Filters = <TypeStringFilter extends string>(
     }
   }, [currSelectedFilter, selectedValue])
 
-  const handleChange = (filterValue: TypeStringFilter | null) => {
+  const handleChange = (filterValue: TypeFilters | null) => {
     if (!filterValue || filterValue === currSelectedFilter) {
       return
     }
@@ -80,5 +79,9 @@ const Filters = <TypeStringFilter extends string>(
     </Paper>
   )
 }
+
+function assertFC<P>(component: React.FC<P>): asserts component is React.FC<P> {}
+
+assertFC(Filters)
 
 export default Filters;
